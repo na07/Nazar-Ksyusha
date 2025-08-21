@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- start screen -->
 
+        <div class="calendar-screen">
+            <h1>Выберите дату</h1>
+            <input type="date" class="date-picker">
+            <button class="select-date">Выбрать</button>
+        </div>
+        
+        <!-- screen for choose date-->
+
+        <div class="task-screen">
+            <h1>Задания на <br><span class="selected-date"></span></h1>
+            <ul class="task-list"></ul>
+            <button clas="add-task">Добавить задание</button>
+            <button clas="back-to-calendar">Назад</button>
+        </div>
+
+        <!-- screen adder for new task-->
+
+        <div class="add-task-screen">
+            <h1>Добавить задания на <br><span class="selected-date"></span></h1>
+            <input type="text" class="task-input" required placeholder="Придумайте задачу">
+            <button type="submit" clas="add">Добавить</button>
+            <button clas="cancel-add-task">Отмена</button>
+        </div>
+
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
