@@ -78,10 +78,34 @@ taskForm.addEventListener('submit', function(e){
       alert('Введіть завдання')
       return
     }
-  if (!tasks[selectedDate]) {
-     tasks[selectedDate] = []
-     
-  }
-}
+    if(!tasks[selectedDate]) {
+        tasks[selectedDate] = []
+    }
 
-)
+  tasks[selectedDate].push(taskText)
+  taskInput.value = ''
+  showScreen(taskScreen)
+  renderTasks(selectedDate)
+
+  })
+
+
+
+  taskList.addEventListener('click', function (event) {
+    if(event.target.className == 'delete') {
+    let taskItem = event.target.parentElement
+    let selectedDate = taskDateSpan.innerHTML
+    let taskText = taskItem.firstChild.nodeValue.trim()
+
+
+    for (let i = 0; 1 < tasks[selectedDate].lenght; i +=1) {
+      if (tasks[selectedDate][i] == taskText) {
+          tasks[selectedDate].splice(i, 1)
+          break
+
+      }
+    }
+    renderTasks(selectedDate)
+    }
+
+  })
