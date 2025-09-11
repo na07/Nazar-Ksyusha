@@ -1,3 +1,4 @@
+
 // Вибір елементів DOM та присвоєння їх змінним
 let calendarScreen = document.querySelector('.calendar-screen') // Екран календаря
 let taskScreen = document.querySelector('.task-screen') // Екран завдань
@@ -16,96 +17,69 @@ let taskInput = document.querySelector('.task-input') // Поле введенн
 // Ініціалізація порожнього об'єкта для зберігання завдань
 let tasks = {}
 
+// Функція для відображення певного екрану
 function showScreen(name_of_screen) {
-   calendarScreen.style.display = 'none'
-   taskScreen.style.display = 'none'
-   addTaskScreen.style.display = 'none'
-   name_of_screen.style.display = 'none'
-
+    calendarScreen.style.display = 'none' // Приховати екран календаря
+    taskScreen.style.display = 'none' // Приховати екран завдань
+    addTaskScreen.style.display = 'none' // Приховати екран додавання завдань
+    name_of_screen.style.display = 'block' // Показати вибраний екран
 }
 
-addTaskButton.addEventListener('click', function() {
-  showScreen(addTaskScreen)
+// Додавання обробника події на кнопку додавання завдання
+addTaskButton.addEventListener('click', function () {
+    showScreen(addTaskScreen) // Показати екран додавання завдання
 })
 
-backToCalendarButton.addEventListener('click', function() {
-  showScreen(addTaskScreen)
+// Додавання обробника події на кнопку повернення до календаря
+backToCalendarButton.addEventListener('click', function () {
+    showScreen(calendarScreen) // Показати екран календаря
 })
 
-cancelAddTaskButton.addEventListener('click', function() {
-  showScreen(addTaskScreen)
+// Додавання обробника події на кнопку скасування додавання завдання
+cancelAddTaskButton.addEventListener('click', function () {
+    showScreen(taskScreen) // Показати екран завдань
 })
 
+// Функція для відображення завдань для певної дати
 function renderTasks(date) {
-    taskList.innerHTML = ''
-    if (tasks[date]) {
-        tasks[date].forEach(function(task) {
-         let li = document.createElement('li')
-        li.textContent = task
-       
-        let deleteBtn = document.createElement('button')
-        deleteBtn.textContent = 'Видалити'
-        deleteBtn.classList.add('delete')
-        li.appendChild(deleteBtn)
+    taskList.innerHTML = '' // Очистити список завдань
+    if (tasks[date]) { // Якщо є завдання для вибраної дати, відобразити їх
+        tasks[date].forEach(function (task) {
+            let li = document.createElement('li') // Створити елемент списку
+            li.textContent = task
 
-        taskList.appendChild(li)
+            let deleteBtn = document.createElement('button') // Створити кнопку видалення
+            deleteBtn.textContent = 'Видалити'
+            deleteBtn.classList.add('delete')
+            li.appendChild(deleteBtn) // Додати кнопку до елементу списку
 
-    }) 
- }
-
+            taskList.appendChild(li) // Додати елемент списку до DOM
+        })
+    }
 }
 
-selectDateButton.addEventListener('click', function(){
-  let selectedDate = datePicker.value;
-  if (!selectedDate) {
-    alert('Оберіть дату')
-    return;
-  }
 
-  selectedDateSpan.innerHTML = selectedDate
- taskDateSpan.innerHTML = selectedDate
- showScreen(taskScreen)
- renderTasks(selectedDate)
-
+// Додавання обробника події на кнопку вибору дати
+selectDateButton.addEventListener('click', function () {
+    let selectedDate = datePicker.value; // Отримання вибраної дати
+    if (!selectedDate) { // Якщо дата не вибрана, показати попередження
+        alert('Оберіть дату')
+        return;
+    }
+    selectedDateSpan.innerHTML = selectedDate // Відображення вибраної дати
+    taskDateSpan.innerHTML = selectedDate // Встановлення дати завдання
+    showScreen(taskScreen) // Показати екран завдань
+    renderTasks(selectedDate) // Відобразити завдання для вибраної дати
 })
 
-taskForm.addEventListener('submit', function(e){
-    e.preventDefault()
-    let taskText = taskInput.value 
-    let selectedDate = taskDateSpan.innerHTML
+// Додавання обробника події на форму додавання завдання
+taskForm.addEventListener('submit', function (e) {
+    //За замовчуванням, коли форму відправляють, браузер перезавантажує сторінку, що призводить до втрати всіх даних, які не зберігаються.
+    e.preventDefault() // Запобігти стандартній поведінці форми
+    let taskText = taskInput.value // Отримання тексту завдання
+    let selectedDate = taskDateSpan.innerHTML // Отримання вибраної дати
 
-    if(!taskText) {
-      alert('Введіть завдання')
-      return
-    }
-    if(!tasks[selectedDate]) {
+
+    if (!tasks[selectedDate]) { // Якщо для вибраної дати немає завдань, створити новий масив
         tasks[selectedDate] = []
     }
-
-  tasks[selectedDate].push(taskText)
-  taskInput.value = ''
-  showScreen(taskScreen)
-  renderTasks(selectedDate)
-
-  })
-
-
-
-  taskList.addEventListener('click', function (event) {
-    if(event.target.className == 'delete') {
-    let taskItem = event.target.parentElement
-    let selectedDate = taskDateSpan.innerHTML
-    let taskText = taskItem.firstChild.nodeValue.trim()
-
-
-    for (let i = 0; 1 < tasks[selectedDate].lenght; i +=1) {
-      if (tasks[selectedDate][i] == taskText) {
-          tasks[selectedDate].splice(i, 1)
-          break
-
-      }
-    }
-    renderTasks(selectedDate)
-    }
-
-  })
