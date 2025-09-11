@@ -56,7 +56,7 @@ function renderTasks(date) {
 }
 
 selectDateButton.addEventListener('click', function(){
-  let selectedDate = datePicker.ariaValueMax;
+  let selectedDate = datePicker.value;
   if (!selectedDate) {
     alert('Оберіть дату')
     return;
